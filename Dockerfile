@@ -1,8 +1,15 @@
-# This is an auto generated Dockerfile for ros:desktop
-# generated from docker_images_ros2/create_ros_image.Dockerfile.em
-FROM ros:foxy-ros-base-focal
+FROM osrf/ros:humble-desktop
 
-# install ros2 packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-foxy-desktop=0.9.2-1* \
-    && rm -rf /var/lib/apt/lists/*
+SHELL ["/bin/bash", "-c"]
+
+RUN source /opt/ros/humble/setup.bash && \
+    export ROS_DOMAIN_ID=57 && \
+    export ROS_LOCALHOST_ONLY=1
+
+RUN apt-get update && apt-get install -y \
+    libxcb-xinerama0 \
+    libxkbcommon-x11-0 \
+    libgl1-mesa-glx \
+    libgl1-mesa-dri
+
+ENV LIBGL_ALWAYS_INDIRECT=1
