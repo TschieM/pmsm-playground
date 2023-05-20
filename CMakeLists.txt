@@ -7,4 +7,6 @@ find_package(yaml-cpp REQUIRED)
 
 set(BUILD_PEDANTIC_DOC "Build the project with -Wall, -Wextra and -Wpedantic.")
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 add_subdirectory(src)

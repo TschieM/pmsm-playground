@@ -26,5 +26,8 @@ WORKDIR /app
 # Copy the application files to the container
 COPY . /app
 
+# compile the project
+RUN cmake . -B build && cd build && make
+
 SHELL ["/bin/bash", "-c"]
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
