@@ -1,7 +1,7 @@
-#include "pmsm_sim.h"
+#include "pmsm.h"
 
 int main() {
-    PmsmSimModel pmsm("../configs/sim_sys.yaml", "../configs/pmsm.yaml");
-    pmsm.updateModel();
+    Pmsm motor("../configs/pmsm.yaml");
+    motor.run(0.1);
     return 0;
 }
