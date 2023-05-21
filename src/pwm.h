@@ -1,5 +1,5 @@
-#ifndef _PWM_H
-#define _PWM_H
+#ifndef _PWM_H_
+#define _PWM_H_
 
 #include <cstdint>
 
