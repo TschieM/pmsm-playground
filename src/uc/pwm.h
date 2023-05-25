@@ -11,7 +11,8 @@ class Pwm {
         void setCompareReg(const uint32_t val);
         void setCallBackAtCCR0(void (*cb_fun)(void));
         void setCallBackAtCCRMax(void (*cb_fun)(void));
-        void run(void (*cb_func_high)(void), void (*cb_func_low)(void));
+        bool getOutput();
+        void update();
     private:
         uint32_t maxCnt;
         uint32_t CCR;
