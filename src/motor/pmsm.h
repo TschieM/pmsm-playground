@@ -4,6 +4,7 @@
 #include <array>
 #include <string>
 #include <memory>
+#include <Eigen/Dense>
 
 class PMSM_Motor {
  public:
@@ -21,15 +22,9 @@ class PMSM_Motor {
   void updateCurrentPhaseModel();
   void updateCurrentDQModel();
   void updateDynamic();
-  void clarke_park_tf(std::array<double, 3>&in, std::array<double, 2>&out);
+  void clarke_park_tf(Eigen::Vector3d &in, Eigen::Vector2d &out);
+  void inv_clarke_park_tf(Eigen::Vector2d &in, Eigen::Vector3d &out);
 
-  std::array<double, 3> lineVoltage;
-  std::array<double, 3> phaseVoltage;
-  std::array<double, 3> phaseCurrent;
-  std::array<double, 3> phaseFlux;
-  std::array<double, 3> oldPhaseFlux;
-  std::array<double, 2> dqCurrent;
-  std::array<double, 2> dqVoltage;
   struct {
     double Rs;
     double Ls;
@@ -41,8 +36,25 @@ class PMSM_Motor {
     double pp;
     double inertia;
   } params;
-  double id;
-  double iq;
+
+  Eigen::Vector3d lineVoltage;
+  Eigen::Vector3d phaseVoltage;
+  Eigen::Vector3d oldPhaseVoltage;
+  Eigen::Vector3d phaseCurrent;
+  Eigen::Vector3d phaseFlux;
+  Eigen::Vector3d oldPhaseFlux;
+  Eigen::Vector2d dqCurrent;
+  Eigen::Vector2d dqVoltage;
+  Eigen::Vector2d oldDqVoltage;
+
+  Eigen::Matrix2d dqA;
+  Eigen::Matrix2d dqB;
+  Eigen::Matrix2d dqW;
+
+  Eigen::Matrix3d phaseA;
+  Eigen::Matrix3d phaseB;
+  Eigen::Matrix3d phaseW;
+
   double pos_e;
   double pos_m;
   double velocity;

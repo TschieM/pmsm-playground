@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 find_package(yaml-cpp REQUIRED)
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 set(BUILD_PEDANTIC_DOC "Build the project with -Wall, -Wextra and -Wpedantic.")
 
