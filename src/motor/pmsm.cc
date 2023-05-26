@@ -55,7 +55,7 @@ double PMSM_Motor::getCurrent(const uint8_t id) {
 }
 
 void PMSM_Motor::update() {
-    updateCurrentPhaseModel();
+    updateCurrentDQModel();
     updateDynamic();
 }
 
@@ -110,7 +110,7 @@ void PMSM_Motor::updateDynamic(){
     velocity += (torque-load)/params.inertia*ts;
     pos_m += velocity*ts;
     pos_m = std::fmod(pos_m, M_PI*2);
-    pos_e += params.pp*pos_m;
+    pos_e += params.pp*velocity*ts;
     pos_e = std::fmod(pos_e, M_PI*2);
 }
 
