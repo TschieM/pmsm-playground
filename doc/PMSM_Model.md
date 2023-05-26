@@ -1,5 +1,10 @@
 # PMSM Model
 
+## Before Reading Further
+Due to the github page latex rendering issue, the latex formular are replaced with the generated svg files. The [online tool](https://editor.codecogs.com) can be used to convert latex context to svg file. Also, please reserve the orignal latex formular as comment for the purpose of version control. 
+
+In consequence, the generated svg file can only have one (here the black is chosen) front color. For easier reading, please set the background color or the webpage or editor to white for better contrast.
+
 ## Electrical Model
 This section is only for clarifying which model is used in the playground, with the method been used to solve the ordinary differential equation(ODE). For detailed explanation of how the model is created, please refer to other literatures. A very good reference could be [Electric Motor Control(Chapter 4)](https://www.sciencedirect.com/science/article/abs/pii/B9780128121382000040).
 
