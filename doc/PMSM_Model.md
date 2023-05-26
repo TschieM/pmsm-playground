@@ -7,7 +7,7 @@ This section is only for clarifying which model is used in the playground, with 
 A simplified model of interior PMSM(IPMSM) is described [here](https://www.mathworks.com/help/autoblks/ref/interiorpmsm.html).
 
 Reform the electrical model of the equations into a state space representation, we can get:
-$$
+<!-- $$
 \frac{d}{dt} 
 \begin{bmatrix} 
 i_{d}\\[0.3em]
@@ -37,7 +37,8 @@ u_{q}
 -1
 \end{bmatrix}
 \frac{\lambda_{pm}p\omega_{m}}{L_{d}}
-$$
+$$ -->
+![image](.pictures/simplified_pmsm_model.svg)
 
 For a surfaced mounted PMSM (SPMSM), simply set $L_{d} = L_{q} = L_{s}$ in the equation, where $L_{s}$ is the motor phase inductance.
 ### Original Model (Expressed in motor a-b-c phase)
