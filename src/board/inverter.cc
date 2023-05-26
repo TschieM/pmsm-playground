@@ -1,5 +1,6 @@
 #include "inverter.h"
 #include <numeric>
+#include <cstdint>
 
 Inverter::Inverter(const double Vdc): Vdc(Vdc) {
     mosfets.fill(false);
