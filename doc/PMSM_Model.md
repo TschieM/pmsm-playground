@@ -88,7 +88,7 @@ i_{c}
 \end{bmatrix}
 $$ -->
 ![image](.pictures/pmsm_flux_model.svg)    
-The $\bold{I}_{3 \times 3}$ is the identity matrix and $\bold{L}_{3 \times 3}$ is the inductance matrix, whose elements are position dependent, which can be calculated as described in the [Matlab Webpage for pmsm model](https://www.mathworks.com/help/sps/ref/pmsm.html). Sorting the above two equations, we can get the electrical model in the state-space description:
+The $I_{3 \times 3}$ is the identity matrix and $L_{3 \times 3}$ is the inductance matrix, whose elements are position dependent, which can be calculated as described in the [Matlab Webpage for pmsm model](https://www.mathworks.com/help/sps/ref/pmsm.html). Sorting the above two equations, we can get the electrical model in the state-space description:
 <!-- $$
 \frac{d}{dt}
 \begin{bmatrix}
@@ -126,7 +126,7 @@ Both simplified and original electrical model can be expressed as:
 \dot{x}_{n\times 1} = \bold{A}_{n\times n}x_{n\times 1} + \bold{B}_{n\times n}u_{n\times 1} + w_{n\times 1}
 $$ -->
 ![image](.pictures/pmsm_model_ss.svg)   
-The above equation is a time-invariate linear ordinary differential equation, where $n=2$ for simplified model and $n=3$ for original model. It is worthy noting that in original model, the Matrix $\bold{A}$, $\bold{B}$ and $\bold{W}$ are position and velocity dependent, which makes them also time dependent. However, in compared to the electrical states $i$ and $u$, the bandwith of position and velocity is very low. As a result, we can treat them as constant martix when solving the equation for the current.
+The above equation is a time-invariate linear ordinary differential equation, where $n=2$ for simplified model and $n=3$ for original model. It is worthy noting that in original model, the Matrix $A$, $B$ and vector $w$ are position and velocity dependent, which makes them also time dependent. However, in compared to the electrical states $i$ and $u$, the bandwith of position and velocity is very low. As a result, we can treat them as constant martix when solving the equation for the current.
 
 #### Analytical Solution
 （tbd）
