@@ -1,7 +1,7 @@
 #include "pmsm.h"
 
 int main() {
-    Pmsm motor("../configs/pmsm.yaml");
-    motor.run(0.1);
+    PMSM_Motor motor("../configs/pmsm.yaml", 0.1);
+    motor.update();
     return 0;
 }
