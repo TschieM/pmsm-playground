@@ -44,7 +44,7 @@ For a surfaced mounted PMSM (SPMSM), simply set $L_{d} = L_{q} = L_{s}$ in the e
 ### Original Model (Expressed in motor a-b-c phase)
 
 As is described in the [Matlab Webpage](https://www.mathworks.com/help/sps/ref/pmsm.html), the PMSM electrical system can be stated as: 
-$$
+<!-- $$
 \begin{bmatrix}
 u_{a}\\[0.3em]
 u_{b}\\[0.3em]
@@ -64,9 +64,10 @@ i_{c}
 \phi_{b}\\[0.3em]
 \phi_{c}
 \end{bmatrix}
-$$
+$$ -->
+![image](.pictures/pmsm_current_model.svg)  
 Where
-$$
+<!-- $$
 \begin{bmatrix}
 \phi_{a}\\[0.3em]
 \phi_{b}\\[0.3em]
@@ -85,9 +86,10 @@ i_{c}
 \phi_{bm}\\[0.3em]
 \phi_{cm}
 \end{bmatrix}
-$$
+$$ -->
+![image](.pictures/pmsm_flux_model.svg)    
 The $\bold{I}_{3 \times 3}$ is the identity matrix and $\bold{L}_{3 \times 3}$ is the inductance matrix, whose elements are position dependent, which can be calculated as described in the [Matlab Webpage for pmsm model](https://www.mathworks.com/help/sps/ref/pmsm.html). Sorting the above two equations, we can get the electrical model in the state-space description:
-$$
+<!-- $$
 \frac{d}{dt}
 \begin{bmatrix}
 i_{a}\\[0.3em]
@@ -115,13 +117,15 @@ u_{c}
 \phi_{bm}\\[0.3em]
 \phi_{cm}
 \end{bmatrix}
-$$
+$$ -->
+![image](.pictures/original_pmsm_model.svg)   
 
 ### Solve the ODE
 Both simplified and original electrical model can be expressed as:
-$$
+<!-- $$
 \dot{x}_{n\times 1} = \bold{A}_{n\times n}x_{n\times 1} + \bold{B}_{n\times n}u_{n\times 1} + w_{n\times 1}
-$$
+$$ -->
+![image](.pictures/pmsm_model_ss.svg)   
 The above equation is a time-invariate linear ordinary differential equation, where $n=2$ for simplified model and $n=3$ for original model. It is worthy noting that in original model, the Matrix $\bold{A}$, $\bold{B}$ and $\bold{W}$ are position and velocity dependent, which makes them also time dependent. However, in compared to the electrical states $i$ and $u$, the bandwith of position and velocity is very low. As a result, we can treat them as constant martix when solving the equation for the current.
 
 #### Analytical Solution
@@ -129,25 +133,31 @@ The above equation is a time-invariate linear ordinary differential equation, wh
 
 #### Numerical Solution
 Apply [bilinear transformation](https://en.wikipedia.org/wiki/Bilinear_transform) to $\dot{x}$ and assume the sample time is $t_{s}$, we can get:
-$$
+<!-- $$
 \frac{2}{t_{s}}\frac{z-1}{z+1}x = \bold{A}x + \bold{B}u + w
-$$
+$$ -->
+![image](.pictures/pmsm_model_ss_bilinear.svg)   
 Which then can be extracted to:
-$$
+<!-- $$
 (\bold{I}-\frac{1}{2}t_{s}\bold{A})x_{k+1} = (\bold{I}+\frac{1}{2}t_{s}\bold{A})x_{k} + \frac{1}{2}t_{s}\bold{B}(u_{k+1}+u_{k}) + t_{s}w_{k}
-$$
+$$ -->
+![image](.pictures/pmsm_model_discrete_full.svg)   
 Thus, the state $x_{k+1}$ can be calculated as:
-$$
+<!-- $$
 x_{k+1} = \bold{\tilde A}x_{k} + \bold{\tilde B}(u_{k+1}+u_{k}) + \bold{\tilde w}
-$$
+$$ -->
+![image](.pictures/pmsm_model_discrete_short.svg)   
 Where
-$$
+<!-- $$
 \bold{\tilde A} = (\bold{I}-\frac{1}{2}t_{s}\bold{A})^{-1}(\bold{I}+\frac{1}{2}t_{s}\bold{A})
-$$
-$$
+$$ -->
+![image](.pictures/pmsm_model_discrete_a.svg)   
+<!-- $$
 \bold{\tilde B} = \frac{1}{2}t_{s}(\bold{I}-\frac{1}{2}t_{s}\bold{A})^{-1}\bold{B}
-$$
-$$
+$$ -->
+![image](.pictures/pmsm_model_discrete_b.svg) 
+<!-- $$
 \bold{\tilde w} = t_{s}(\bold{I}-\frac{1}{2}t_{s}\bold{A})^{-1}w_{k}
-$$
+$$ -->
+![image](.pictures/pmsm_model_discrete_w.svg) 
 ## Dynamic Model
