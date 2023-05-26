@@ -8,19 +8,23 @@ PMSM_Motor::PMSM_Motor(const std::string& pmsm_config, const double ts): ts(ts) 
     YAML::Node config = YAML::LoadFile(pmsm_config); 
     params.Rs = std::stod(config["phase_resistance"].as<std::string>());
     params.Ls = std::stod(config["phase_inductance"].as<std::string>());
-    params.Lms = std::stod(config["mutal_inductance"].as<std::string>());;
-    params.Lm = std::stod(config["inductance_fluctuation"].as<std::string>());
+    params.Ld = std::stod(config["phase_d_inductance"].as<std::string>());;
+    params.Lq = std::stod(config["phase_q_inductance"].as<std::string>());
     params.pp = std::stod(config["pole_pairs"].as<std::string>());
     params.inertia = std::stod(config["inertia"].as<std::string>());
     double kt = std::stod(config["motor_constant"].as<std::string>());
 
 
     params.phi_m = kt / (params.pp * 3/2);
+    params.Lms = (params.Ld+params.Lq-2*params.Ls)/2;
+    params.Lm = (params.Ld-params.Lq)/3;
     lineVoltage.fill(0);
     phaseVoltage.fill(0);
     phaseCurrent.fill(0);
     phaseFlux.fill(0);
     oldPhaseFlux.fill(0);
+    dqCurrent.fill(0);
+    dqVoltage.fill(0);
 }
 
 PMSM_Motor::~PMSM_Motor() {}
@@ -42,8 +46,7 @@ double PMSM_Motor::getCurrent(const uint8_t id) {
 }
 
 void PMSM_Motor::update() {
-    updateFlux();
-    updateCurrent();
+    updateCurrentPhaseModel();
     updateDynamic();
 }
 
@@ -62,29 +65,43 @@ void PMSM_Motor::updateFlux(){
     phaseFlux.at(2) = Lac*phaseCurrent.at(0) + Lbc*phaseCurrent.at(1) + Lcc*phaseCurrent.at(2) + Phi_cm;
 }
 
-void PMSM_Motor::updateCurrent(){
+void PMSM_Motor::updateVoltage() {
     double Vdc = std::max_element(lineVoltage.begin(), lineVoltage.end());
     double postivePhaseVoltage = Vdc - std::accumulate(lineVoltage.begin(), lineVoltage.end(), 0) / 3;
     double negativePhaseVoltage = Vdc - postivePhaseVoltage;
     for(uint8_t i = 0; i < 3; i++) {
         phaseVoltage.at(i) = lineVoltage.at(i) > 0 ? postivePhaseVoltage : negativePhaseVoltage;
     } 
+    clarke_park_tf(phaseVoltage, dqVoltage);
+}
+
+void PMSM_Motor::updateCurrentPhaseModel(){
+    updateFlux();
+    updateVoltage();
 
     for (uint8_t i = 0; i < 3; i++) {
         phaseCurrent.at(i) = (phaseVoltage.at(i) - (phaseFlux.at(i)-oldPhaseFlux.at(i))/ts) / params.Rs;
         oldPhaseFlux.at(i) = phaseFlux.at(i);
     }
+
+    clarke_park_tf(phaseCurrent, dqCurrent);
+}
+
+void PMSM_Motor::updateCurrentDQModel(){
+    updateVoltage();
+    
 }
 
 void PMSM_Motor::updateDynamic(){
-    double Ld = params.Ls + params.Lms + 3.0/2.0*params.Lm;
-    double Lq = params.Ls + params.Lms - 3.0/2.0*params.Lm;
-    double id = (sin(pos_e)*phaseCurrent.at(0) + sin(pos_e-M_PI*2/3)*phaseCurrent.at(1) + sin(pos_e+M_PI*2/3)*phaseCurrent.at(2)) * 2/3;
-    double iq = (cos(pos_e)*phaseCurrent.at(0) + cos(pos_e-M_PI*2/3)*phaseCurrent.at(1) + cos(pos_e+M_PI*2/3)*phaseCurrent.at(2)) * 2/3;
-    torque = params.pp * (iq*params.phi_m + (Ld-Lq)*id*iq) * 3/2;
+    torque = params.pp * (dqCurrent.at(1)*params.phi_m + (params.Ld-params.Lq)*dqCurrent.at(0)*dqCurrent.at(1)) * 3/2;
     velocity += (torque-load)/params.inertia*ts;
     pos_m += velocity*ts;
     pos_m = std::fmod(pos_m, M_PI*2);
     pos_e += params.pp*pos_m;
     pos_e = std::fmod(pos_e, M_PI*2);
+}
+
+void PMSM_Motor::clarke_park_tf(std::array<double, 3>&in, std::array<double, 2>&out) {
+    out.at(0) = (sin(pos_e)*in.at(0) + sin(pos_e-M_PI*2/3)*in.at(1) + sin(pos_e+M_PI*2/3)*in.at(2)) * 2/3;
+    out.at(1) = (cos(pos_e)*in.at(0) + cos(pos_e-M_PI*2/3)*in.at(1) + cos(pos_e+M_PI*2/3)*in.at(2)) * 2/3;
 }

@@ -17,23 +17,32 @@ class PMSM_Motor {
 
  private:
   void updateFlux();
-  void updateCurrent();
+  void updateVoltage();
+  void updateCurrentPhaseModel();
+  void updateCurrentDQModel();
   void updateDynamic();
+  void clarke_park_tf(std::array<double, 3>&in, std::array<double, 2>&out);
 
   std::array<double, 3> lineVoltage;
   std::array<double, 3> phaseVoltage;
   std::array<double, 3> phaseCurrent;
   std::array<double, 3> phaseFlux;
   std::array<double, 3> oldPhaseFlux;
+  std::array<double, 2> dqCurrent;
+  std::array<double, 2> dqVoltage;
   struct {
     double Rs;
     double Ls;
     double Lm;
     double Lms;
+    double Ld;
+    double Lq;
     double phi_m;
     double pp;
     double inertia;
   } params;
+  double id;
+  double iq;
   double pos_e;
   double pos_m;
   double velocity;
