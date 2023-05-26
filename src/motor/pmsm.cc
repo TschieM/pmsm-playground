@@ -39,7 +39,6 @@ PMSM_Motor::PMSM_Motor(const std::string& pmsm_config, const double ts): ts(ts) 
 PMSM_Motor::~PMSM_Motor() {}
 
 void PMSM_Motor::setVoltage(const uint8_t id, const double val) {
-    // lineVoltage.at(id) = val;
     lineVoltage(id) = val;
 }
 
@@ -52,7 +51,6 @@ double PMSM_Motor::getPosition() {
 }
 
 double PMSM_Motor::getCurrent(const uint8_t id) {
-    // return phaseCurrent.at(id);
     return phaseCurrent(id);
 }
 
