@@ -1,6 +1,7 @@
 add_executable(playground
     main.cc 
     peripherial/pmsm.cc
+    peripherial/encoder.cc
     board/inverter.cc 
     uc/pwm.cc
 )
