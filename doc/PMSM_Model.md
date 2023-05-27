@@ -20,8 +20,8 @@ i_{q}
 \end{bmatrix}
 = 
 \begin{bmatrix}
--\frac{R}{L_{d}} & \frac{L_{q}}{L_{d}}p\omega_{m} \\[0.3em]
--\frac{L_{d}}{L_{q}}p\omega_{m} & -\frac{R}{L_{q}}
+-\frac{R_{s}}{L_{d}} & \frac{L_{q}}{L_{d}}p\omega_{m} \\[0.3em]
+-\frac{L_{d}}{L_{q}}p\omega_{m} & -\frac{R_{s}}{L_{q}}
 \end{bmatrix}
 \begin{bmatrix} 
 i_{d}\\[0.3em]
@@ -179,3 +179,18 @@ $$ -->
 ![image](.pictures/pmsm_model_torque_m.svg)   
 
 ## Glossary
+| Notation | Meaning | Comment |
+| -------- | ------- | ------- |
+| $u_{a,b,c}$ | Phase voltage | Voltage drop between terminal and neutral point |
+| $i_{a,b,c}$ | Phase current | |
+| $u_{d,q}$   | D-Q phase voltage | phase voltage in simplified model |
+| $i_{d,q}$   | D-Q phase current | current/voltage transformation is done via (inverse-)clarke-park tf |
+| $R_{s}$     | Phase resistance  | in the datasheet the resistance are often given as terminal resistance |
+| $L_{s}$     | Phase inductance  |  |
+| $L_{d,q}$   | D-Q phase inductance  |  |
+| $L$         | phase inductance matrix | the computing of its elements can be found [here](https://www.mathworks.com/help/sps/ref/pmsm.html) |
+| $\lambda_{pm}$ | rotor flux come from the permanent magnet  | it can be calculated via motor constant $k_{t}$ |
+| $\phi_{am, bm, cm}$ | flux come from the  permanent magnet projected on phase a, b and c |  |
+| $\omega_{m}$ | rotor rotating speed (rad/s) |  |
+| p | motor pole pairs |  |
+
