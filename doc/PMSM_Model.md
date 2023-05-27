@@ -165,4 +165,17 @@ $$ -->
 \bold{\tilde w} = t_{s}(\bold{I}-\frac{1}{2}t_{s}\bold{A})^{-1}w_{k}
 $$ -->
 ![image](.pictures/pmsm_model_discrete_w.svg) 
+
 ## Dynamic Model
+If the friction is neglected, the dynamic model of the motor is rather simple and can be expressed as:
+<!-- $$
+\ddot{\theta}_{m} = \frac{1}{J}(\tau_{m} - \tau_{l})
+$$ -->
+![image](.pictures/pmsm_model_dynamic.svg)   
+Where $J$ is the inertia of the rotor, $\tau_{l}$ is the load on the rotor and $\tau_{m}$ is the torque produced by the motor, which can be computed via:
+<!-- $$
+\tau_{m} = \frac{3}{2}p(\lambda_{pm}i_{q} + (L_{d}-L_{q})i_{d}i_{q})
+$$ -->
+![image](.pictures/pmsm_model_torque_m.svg)   
+
+## Glossary
