@@ -3,10 +3,10 @@
 
 #include <cstdint>
 
-class Pwm {
+class PWM {
     public:
-        Pwm();
-        ~Pwm();
+        PWM();
+        ~PWM();
         void setMaxCount(const uint32_t val);
         void setCompareReg(const uint32_t val);
         void setCallBackAtCCR0(void (*cb_fun)(void));
