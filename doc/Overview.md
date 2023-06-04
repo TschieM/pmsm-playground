@@ -1,4 +1,4 @@
 # Project Overview
 
 ## Architecture Diagram
-![plot](.pictures/architecture.png)
+![plot](.pictures/architecture.svg)
